@@ -1,9 +1,11 @@
 function parseEntry(item) {
   const d = item.string_list_data?.[0]
-  if (!d?.value) return null
+  if (!d) return null
+  const username = d.value || item.title || d.href?.split('/_u/').pop()?.split('/')[0]
+  if (!username) return null
   return {
-    username: d.value,
-    href: d.href || `https://www.instagram.com/_u/${d.value}`,
+    username,
+    href: d.href || `https://www.instagram.com/_u/${username}`,
     timestamp: d.timestamp || 0,
   }
 }
